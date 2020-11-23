@@ -1,0 +1,12 @@
+# OS X
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.idea/
+
+# Python
+venv/
+__pycache__/
+*.py[cod]
