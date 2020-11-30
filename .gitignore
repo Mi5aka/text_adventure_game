@@ -5,6 +5,7 @@
 
 # IDE
 .idea/
+.mypy_cache/
 
 # Python
 venv/
