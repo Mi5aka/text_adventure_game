@@ -1,2 +1,3 @@
 flake8==3.8.4
 mypy==0.790
+finite-state-machine==0.4.0
