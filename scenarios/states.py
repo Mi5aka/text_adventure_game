@@ -1,5 +1,8 @@
 class States(object):
     START = 'start'
     BIRTHDAY = 'birthday'
-    FAILED = 'failed'
-    WIN = 'win'
+    # endings
+    BAD_ENDING = 'bad ending'
+    FRIEND_ENDING = 'friend ending'
+    PANDEMIC_ENDING = 'pandemic'
+    HAPPY_ENDING = 'happy ending'
