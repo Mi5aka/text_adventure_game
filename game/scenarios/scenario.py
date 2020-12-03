@@ -1,3 +1,4 @@
+import os
 from finite_state_machine import StateMachine, transition
 
 from data import DESCRIPTION, GAME_ENDINGS
@@ -23,7 +24,7 @@ class Scenario(StateMachine):
         )
 
     def retry(self, name: str):
-        animated_print('\n Что-то пошло не так. Давай попробуем снова.')
+        animated_print('\nЧто-то пошло не так. Давай попробуем снова.')
         fn = getattr(self, name, None)
         if fn is not None:
             fn()
@@ -36,6 +37,11 @@ class Scenario(StateMachine):
         return False
 
     def check_location(self):
+        try:
+            input('\nЧтобы идти дальше нажми Enter >')
+        except UnicodeDecodeError:
+            animated_print('\nНу, просили же только Enter нажать. Ладно, идем дальше.')
+        os.system('cls||clear')
         location = get_location(self.state)
         animated_print(
             f'\nЛокация: {location}'
@@ -49,14 +55,14 @@ class Scenario(StateMachine):
                 if answer == 'да':
                     self.mental_health += 1
                     animated_print(
-                        '\n Выпил таблетку. +1 к твоему состоянию. '
+                        '\nВыпил таблетку. +1 к твоему состоянию. '
                         f'Здоровье: {self.mental_health}'
                     )
                     return True
                 elif answer == 'нет':
                     self.mental_health -= 1
                     animated_print(
-                        '\n Ты не выпил таблетку. -1 к твоему состоянию. '
+                        '\nТы не выпил таблетку. -1 к твоему состоянию. '
                         f'Здоровье: {self.mental_health}'
                     )
                     return False
@@ -65,15 +71,10 @@ class Scenario(StateMachine):
 
     @transition(
         source=States.START,
-        target=States.BIRTHDAY,
-        conditions=[check_location]
+        target=States.BIRTHDAY
     )
     def start(self):
         animated_print(DESCRIPTION)
-        try:
-            input('\n Нажми Enter >')
-        except UnicodeDecodeError:
-            animated_print('\n Ну, просили же только Enter нажать. Ладно, идем дальше.')
         self.state = States.BIRTHDAY
         return self.happy_birthday()
 
@@ -84,7 +85,7 @@ class Scenario(StateMachine):
     )
     def happy_birthday(self):
         animated_print(
-            '\n Целый день знакомые с родственниками тебе присылают '
+            '\nЦелый день знакомые с родственниками тебе присылают '
             'поздравления и ненавязчиво спрашивают «Ну, как там? После 30 жизнь есть?»'
             '\n1. Игнорировать'
             '\n2. Поблагодарить'
@@ -303,7 +304,7 @@ class Scenario(StateMachine):
         )
         options = {
             1: ('\nТы впустую потратил деньги т.к. у тебя нет времени играть', -5),
-            2: ('\n:Жизнь тебя ничему не учит.', -10),
+            2: ('\nЖизнь тебя ничему не учит.', -10),
             3: ('\nТы уверен в этой идее?', -5)
         }
         try:

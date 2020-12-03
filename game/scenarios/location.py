@@ -14,6 +14,6 @@ def get_location(state: str) -> str:
         States.MIMICRY
     ):
         return Location.OFFICE
-    elif state == States.FIRST_MEETING:
+    elif state == States.ENTHUSIASM:
         return Location.ENTERANCE
     return Location.HOME
