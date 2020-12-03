@@ -2,6 +2,7 @@ from finite_state_machine import StateMachine, transition
 
 from data import DESCRIPTION, GAME_ENDINGS
 from animation import animated_print
+from location import get_location
 from states import States
 
 
@@ -34,6 +35,13 @@ class Scenario(StateMachine):
         animated_print(GAME_ENDINGS['bad_ending'])
         return False
 
+    def check_location(self):
+        location = get_location(self.state)
+        animated_print(
+            f'\nЛокация: {location}'
+        )
+        return True
+
     def drink_pills(self):
         if self.have_pills:
             try:
@@ -57,7 +65,8 @@ class Scenario(StateMachine):
 
     @transition(
         source=States.START,
-        target=States.BIRTHDAY
+        target=States.BIRTHDAY,
+        conditions=[check_location]
     )
     def start(self):
         animated_print(DESCRIPTION)
@@ -71,7 +80,7 @@ class Scenario(StateMachine):
     @transition(
         source=States.BIRTHDAY,
         target=States.BIRTHDAY,
-        conditions=[is_healthy]
+        conditions=[is_healthy, check_location]
     )
     def happy_birthday(self):
         animated_print(
@@ -97,7 +106,7 @@ class Scenario(StateMachine):
     @transition(
         source=States.BIRTHDAY,
         target=States.OVERTIMING,
-        conditions=[is_healthy]
+        conditions=[is_healthy, check_location]
     )
     def overtiming(self):
         animated_print(
@@ -126,7 +135,7 @@ class Scenario(StateMachine):
     @transition(
         source=States.OVERTIMING,
         target=States.FOOD_PROBLEM,
-        conditions=[is_healthy]
+        conditions=[is_healthy, check_location]
     )
     def food_problem(self):
         animated_print(
@@ -153,7 +162,7 @@ class Scenario(StateMachine):
     @transition(
         source=States.FOOD_PROBLEM,
         target=States.SLEEP_PROBLEMS,
-        conditions=[is_healthy]
+        conditions=[is_healthy, check_location]
     )
     def sleep_problems(self):
         animated_print(
@@ -185,7 +194,7 @@ class Scenario(StateMachine):
     @transition(
         source=States.SLEEP_PROBLEMS,
         target=States.HOTFIX,
-        conditions=[is_healthy]
+        conditions=[is_healthy, check_location]
     )
     def hotfix(self):
         animated_print(
@@ -247,7 +256,7 @@ class Scenario(StateMachine):
     @transition(
         source=States.WITHOUT_VACCINE,
         target=States.SELF_DIGGING,
-        conditions=[is_healthy]
+        conditions=[is_healthy, check_location]
     )
     def self_digging(self):
         animated_print(
@@ -277,7 +286,7 @@ class Scenario(StateMachine):
     @transition(
         source=States.SELF_DIGGING,
         target=States.ENTHUSIASM,
-        conditions=[is_healthy]
+        conditions=[is_healthy, check_location]
     )
     def enthusiasm(self):
         animated_print(
@@ -310,7 +319,7 @@ class Scenario(StateMachine):
         source=States.ENTHUSIASM,
         target=States.EMPTINESS,
         on_error=States.FRIENDSHIP,
-        conditions=[is_healthy]
+        conditions=[is_healthy, check_location]
     )
     def first_meeting(self):
         animated_print(
@@ -347,7 +356,8 @@ class Scenario(StateMachine):
 
     @transition(
         source=States.FRIENDSHIP,
-        target=States.HALLUCINATIONS
+        target=States.HALLUCINATIONS,
+        conditions=[check_location]
     )
     def friendship(self):
         animated_print(
@@ -372,7 +382,7 @@ class Scenario(StateMachine):
         source=States.HALLUCINATIONS,
         target=States.EMPTINESS,
         on_error=States.FRIEND_ENDING,
-        conditions=[is_healthy]
+        conditions=[is_healthy, check_location]
     )
     def hallucinations(self):
         animated_print(
@@ -411,7 +421,7 @@ class Scenario(StateMachine):
     @transition(
         source=States.EMPTINESS,
         target=States.BACK_TO_OFFICE,
-        conditions=[is_healthy]
+        conditions=[is_healthy, check_location]
     )
     def emptiness(self):
         self.drink_pills()
@@ -451,7 +461,7 @@ class Scenario(StateMachine):
     @transition(
         source=States.BACK_TO_OFFICE,
         target=States.PULL_REQUEST,
-        conditions=[is_healthy]
+        conditions=[is_healthy, check_location]
     )
     def back_to_office(self):
         self.drink_pills()
@@ -482,7 +492,7 @@ class Scenario(StateMachine):
     @transition(
         source=States.PULL_REQUEST,
         target=States.MIMICRY,
-        conditions=[is_healthy]
+        conditions=[is_healthy, check_location]
     )
     def pull_request(self):
         self.drink_pills()
@@ -520,7 +530,7 @@ class Scenario(StateMachine):
     @transition(
         source=States.MIMICRY,
         target=States.DEMO,
-        conditions=[is_healthy]
+        conditions=[is_healthy, check_location]
     )
     def mimicry(self):
         self.drink_pills()
@@ -550,7 +560,7 @@ class Scenario(StateMachine):
     @transition(
         source=States.DEMO,
         target=States.ACTION,
-        conditions=[is_healthy]
+        conditions=[is_healthy, check_location]
     )
     def demo(self):
         self.drink_pills()
@@ -589,7 +599,7 @@ class Scenario(StateMachine):
     @transition(
         source=States.ACTION,
         target=States.WALKING,
-        conditions=[is_healthy]
+        conditions=[is_healthy, check_location]
     )
     def action(self):
         self.drink_pills()
@@ -624,7 +634,7 @@ class Scenario(StateMachine):
         source=States.WALKING,
         target=States.HAPPY_ENDING,
         on_error=States.BAD_ENDING,
-        conditions=[is_healthy]
+        conditions=[is_healthy, check_location]
     )
     def walking(self):
         self.drink_pills()

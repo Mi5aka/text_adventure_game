@@ -1,13 +1,19 @@
+from states import States
+
+
 class Location(object):
-    STREET = 'Улица'
     OFFICE = 'Офис компании'
-    # home
-    HOME = 'Твой дом'
+    HOME = 'Твоя квартира'
     ENTERANCE = 'Подъезд'
-    # transport
-    TAXI = 'Такси'
-    METRO = 'Метро'
 
 
 def get_location(state: str) -> str:
-    pass
+    if state in (
+        States.BACK_TO_OFFICE,
+        States.PULL_REQUEST,
+        States.MIMICRY
+    ):
+        return Location.OFFICE
+    elif state == States.FIRST_MEETING:
+        return Location.ENTERANCE
+    return Location.HOME
