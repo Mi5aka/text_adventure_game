@@ -252,7 +252,9 @@ class Scenario(StateMachine):
             elif answer == 'нет':
                 self.state = States.WITHOUT_VACCINE
                 return self.self_digging()
-        except Exception:
+            else:
+                self.retry('covid_vaccine')
+        except (KeyError, ValueError):
             self.retry('covid_vaccine')
 
     @transition(
