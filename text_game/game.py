@@ -6,14 +6,14 @@ class Game:
     """
     Базовый класс для запуска игры
     """
-    def start_game(self):
+    def start_game(self) -> None:
         scenario = Scenario()
         scenario.start()
 
-    def exit(self):
+    def exit(self) -> None:
         pass
 
-    def play_again(self):
+    def play_again(self) -> None:
         animated_print('\nСыграешь ещё раз? (да или нет)')
         answer = input(">").lower()
         if answer == 'да':

@@ -16,27 +16,27 @@ class Scenario(StateMachine):
         self.have_pills = False
         super().__init__()
 
-    def check_health(self, points: int):
+    def check_health(self, points: int) -> None:
         self.mental_health += points
         str_points = f'+{points}' if points > 0 else str(points)
         animated_print(
             f'\n {str_points} к твоему состоянию. Здоровье: {self.mental_health}'
         )
 
-    def retry(self, name: str):
+    def retry(self, name: str) -> None:
         animated_print('\nЧто-то пошло не так. Давай попробуем снова.')
         fn = getattr(self, name, None)
         if fn is not None:
             fn()
 
-    def is_healthy(self):
+    def is_healthy(self) -> bool:
         if self.mental_health > 0:
             return True
         self.state = States.BAD_ENDING
         animated_print(GAME_ENDINGS['bad_ending'])
         return False
 
-    def check_location(self):
+    def check_location(self) -> bool:
         try:
             input('\nЧтобы идти дальше нажми Enter >')
         except UnicodeDecodeError:
@@ -48,7 +48,7 @@ class Scenario(StateMachine):
         )
         return True
 
-    def drink_pills(self):
+    def drink_pills(self) -> bool:
         if self.have_pills:
             try:
                 answer = input('\n>').lower()
@@ -248,10 +248,7 @@ class Scenario(StateMachine):
             elif answer == 'нет':
                 self.state = States.WITHOUT_VACCINE
                 return self.self_digging()
-            else:
-                self.retry('covid_vaccine')
         except Exception:
-            print(f'error: {Exception}')
             self.retry('covid_vaccine')
 
     @transition(
@@ -637,7 +634,7 @@ class Scenario(StateMachine):
         on_error=States.BAD_ENDING,
         conditions=[is_healthy, check_location]
     )
-    def walking(self):
+    def walking(self) -> None:
         self.drink_pills()
         animated_print(
             '\nТы давно не видел солнца. Как и любой петербуржец. Но тебе '

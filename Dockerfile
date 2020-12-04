@@ -6,6 +6,6 @@ COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 
-COPY game/ .
+COPY text_game .
 
 CMD [ "python", "./main.py" ]
