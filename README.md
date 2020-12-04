@@ -12,8 +12,6 @@
 
 ## Запуск
 
-`cd text_adventure_game`
-
 `docker build -t game_image .`
 
 `docker run -it game_image`
