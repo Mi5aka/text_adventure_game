@@ -8,6 +8,10 @@ from states import States
 
 
 class Scenario(StateMachine):
+    """
+        Сценарий игры с ответвлениями
+        Возможны 4 варианта концовки
+    """
     initial_state = States.START
 
     def __init__(self):
